@@ -2,7 +2,7 @@
 """
 Blackjack CLI Game
 A simple command-line blackjack game with betting system.
-Starting balance: $10,000
+Starting balance: $10,000.00
 """
 
 import random

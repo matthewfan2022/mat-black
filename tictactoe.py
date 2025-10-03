@@ -24,10 +24,10 @@ class TicTacToeGame:
             'longest_win_streak': 0,
             'longest_loss_streak': 0,
             'total_moves': 0,
-            'games_won_in_moves': {3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0},
-            'games_lost_in_moves': {3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0}
+            'games_won_in_moves': {4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0, 16: 0},
+            'games_lost_in_moves': {4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0, 16: 0}
         }
-        self.board = [' ' for _ in range(9)]
+        self.board = [' ' for _ in range(16)]  # 4x4 board
         self.player_symbol = 'X'
         self.ai_symbol = 'O'
         self.current_player = 'player'  # 'player' or 'ai'
@@ -35,31 +35,35 @@ class TicTacToeGame:
     
     def display_board(self):
         """Display the current game board."""
-        print("\n" + "="*25)
-        print("TIC TAC TOE BOARD")
-        print("="*25)
-        print(f" {self.board[0]} | {self.board[1]} | {self.board[2]} ")
-        print("---+---+---")
-        print(f" {self.board[3]} | {self.board[4]} | {self.board[5]} ")
-        print("---+---+---")
-        print(f" {self.board[6]} | {self.board[7]} | {self.board[8]} ")
+        print("\n" + "="*33)
+        print("TIC TAC TOE BOARD (4x4)")
+        print("="*33)
+        print(f" {self.board[0]} | {self.board[1]} | {self.board[2]} | {self.board[3]} ")
+        print("---+---+---+---")
+        print(f" {self.board[4]} | {self.board[5]} | {self.board[6]} | {self.board[7]} ")
+        print("---+---+---+---")
+        print(f" {self.board[8]} | {self.board[9]} | {self.board[10]} | {self.board[11]} ")
+        print("---+---+---+---")
+        print(f" {self.board[12]} | {self.board[13]} | {self.board[14]} | {self.board[15]} ")
         print("\nPosition numbers:")
-        print(" 1 | 2 | 3 ")
-        print("---+---+---")
-        print(" 4 | 5 | 6 ")
-        print("---+---+---")
-        print(" 7 | 8 | 9 ")
-        print("="*25)
+        print(" 1 | 2 | 3 | 4 ")
+        print("---+---+---+---")
+        print(" 5 | 6 | 7 | 8 ")
+        print("---+---+---+---")
+        print(" 9 |10 |11 |12 ")
+        print("---+---+---+---")
+        print("13 |14 |15 |16 ")
+        print("="*33)
     
     def reset_board(self):
         """Reset the board for a new game."""
-        self.board = [' ' for _ in range(9)]
+        self.board = [' ' for _ in range(16)]  # 4x4 board
         self.current_player = 'player'
         self.move_count = 0
     
     def is_valid_move(self, position: int) -> bool:
         """Check if a move is valid."""
-        return 1 <= position <= 9 and self.board[position - 1] == ' '
+        return 1 <= position <= 16 and self.board[position - 1] == ' '
     
     def make_move(self, position: int, symbol: str) -> bool:
         """Make a move on the board."""
@@ -72,24 +76,26 @@ class TicTacToeGame:
     
     def check_winner(self) -> Optional[str]:
         """Check if there's a winner. Returns 'X', 'O', 'tie', or None."""
-        # Check rows
-        for i in range(0, 9, 3):
-            if self.board[i] == self.board[i+1] == self.board[i+2] != ' ':
+        # Check rows (4 in a row)
+        for i in range(0, 16, 4):
+            if (self.board[i] == self.board[i+1] == self.board[i+2] == self.board[i+3] != ' '):
                 return self.board[i]
         
-        # Check columns
-        for i in range(3):
-            if self.board[i] == self.board[i+3] == self.board[i+6] != ' ':
+        # Check columns (4 in a column)
+        for i in range(4):
+            if (self.board[i] == self.board[i+4] == self.board[i+8] == self.board[i+12] != ' '):
                 return self.board[i]
         
-        # Check diagonals
-        if self.board[0] == self.board[4] == self.board[8] != ' ':
+        # Check main diagonal (top-left to bottom-right)
+        if (self.board[0] == self.board[5] == self.board[10] == self.board[15] != ' '):
             return self.board[0]
-        if self.board[2] == self.board[4] == self.board[6] != ' ':
-            return self.board[2]
+        
+        # Check anti-diagonal (top-right to bottom-left)
+        if (self.board[3] == self.board[6] == self.board[9] == self.board[12] != ' '):
+            return self.board[3]
         
         # Check for tie
-        if self.move_count == 9:
+        if self.move_count == 16:
             return 'tie'
         
         return None
@@ -97,7 +103,7 @@ class TicTacToeGame:
     def get_ai_move(self) -> int:
         """Get AI's move using a simple strategy."""
         # First, check if AI can win
-        for i in range(9):
+        for i in range(16):
             if self.board[i] == ' ':
                 self.board[i] = self.ai_symbol
                 if self.check_winner() == self.ai_symbol:
@@ -106,7 +112,7 @@ class TicTacToeGame:
                 self.board[i] = ' '  # Undo the move
         
         # Then, check if AI needs to block player
-        for i in range(9):
+        for i in range(16):
             if self.board[i] == ' ':
                 self.board[i] = self.player_symbol
                 if self.check_winner() == self.player_symbol:
@@ -114,31 +120,33 @@ class TicTacToeGame:
                     return i + 1
                 self.board[i] = ' '  # Undo the move
         
-        # If center is available, take it
-        if self.board[4] == ' ':
-            return 5
+        # If center positions are available, take them (positions 6, 7, 10, 11)
+        center_positions = [6, 7, 10, 11]
+        available_centers = [pos for pos in center_positions if self.board[pos-1] == ' ']
+        if available_centers:
+            return random.choice(available_centers)
         
-        # Take corners
-        corners = [1, 3, 7, 9]
+        # Take corners (positions 1, 4, 13, 16)
+        corners = [1, 4, 13, 16]
         available_corners = [pos for pos in corners if self.board[pos-1] == ' ']
         if available_corners:
             return random.choice(available_corners)
         
         # Take any available position
-        available_positions = [i+1 for i in range(9) if self.board[i] == ' ']
+        available_positions = [i+1 for i in range(16) if self.board[i] == ' ']
         return random.choice(available_positions)
     
     def get_player_move(self) -> int:
         """Get player's move."""
         while True:
             try:
-                position = int(input(f"Enter position (1-9) for your {self.player_symbol}: "))
+                position = int(input(f"Enter position (1-16) for your {self.player_symbol}: "))
                 if self.is_valid_move(position):
                     return position
                 else:
                     print("Invalid move! Position is either taken or out of range.")
             except ValueError:
-                print("Please enter a valid number (1-9).")
+                print("Please enter a valid number (1-16).")
     
     def get_bet_amount(self) -> int:
         """Get bet amount from player."""

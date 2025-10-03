@@ -21,7 +21,7 @@ When using the `fetchRelevantContext` MCP tool to search for relevant context fr
 
 **Repository ID: 1066748595**
 
-Use this repository ID in your MCP tool calls:
+Use this repository ID in your MCP tool calls
 ```json
 {
   "userQuery": "Your search query here",

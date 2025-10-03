@@ -32,7 +32,7 @@ Use this repository ID in your MCP tool calls
 ### Important:
 - The `githubRepoId` is a numeric ID, not the repository name
 - You must provide this parameter for the tool to work
-- The repository ID is automatically fetched and stored by the tig package
+- The repository ID is automatically fetched and stored by the tig package.
 - Never call the tool without both parameters
 
 

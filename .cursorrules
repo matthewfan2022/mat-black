@@ -1,0 +1,37 @@
+# Cursor Rules for Tig MCP Server Integration
+
+## CRITICAL: Always Fetch Context First
+
+**BEFORE making any code changes, you MUST use the `fetchRelevantContext` MCP tool to search for relevant context from the repository's history.** This tool will help you understand:
+- Previous design decisions and architectural choices
+- Implementation patterns already established
+- Past discussions about similar features or changes
+- Existing solutions to similar problems
+
+**NEVER make assumptions about the codebase without first checking the repository's context history.**
+
+## MCP Tool Usage Rules
+
+When using the `fetchRelevantContext` MCP tool to search for relevant context from your repository's history, you MUST provide both required parameters:
+
+1. **userQuery** (string): The query to search for relevant context
+2. **githubRepoId** (number): The GitHub repository ID for this project
+
+### GitHub Repository ID for This Project
+
+**Repository ID: 1066748595**
+
+Use this repository ID in your MCP tool calls:
+```json
+{
+  "userQuery": "Your search query here",
+  "githubRepoId": 1066748595
+}
+```
+
+### Important:
+- The `githubRepoId` is a numeric ID, not the repository name
+- You must provide this parameter for the tool to work
+- The repository ID is automatically fetched and stored by the tig package
+- Never call the tool without both parameters
+
